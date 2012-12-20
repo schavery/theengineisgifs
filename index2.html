@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>The Engine Is Gifs</title>
+		<style>
+			body {
+				margin:0;
+				padding:0;
+				height:100%;
+				width:100%;
+				overflow:hidden;
+			}
+		</style>
+	</head>
+	<body>
+			<!--<img src='/archive/90.gif' width='1280' height='1024' />-->
+			temporar text immmm
+			<script src="http://theengineis.gifs:61001/socket.io/socket.io.js"></script>
+			<script>
+				var socket = io.connect('http://theengineis.gifs:61001');
+				socket.on('update', function (data) {
+					console.log(data);
+				});
+			</script>
+	</body>
+</html>
