@@ -34,8 +34,9 @@ EOT;
 
 
 function db_connect() {
-	$db = mysql_connect('localhost:3306','gifmaster','Dt4qWpVcYEE6wB2y');
-	mysql_select_db('gifs');
+	require_once('../conf/settings.php');
+	$db = mysql_connect($db_info['host'],$db_info['user'],$db_info['password']);
+	mysql_select_db($db_info['name']);
 	return $db;
 }
 
