@@ -301,7 +301,7 @@ EOL;
  * Elephant display is the new layout
  * thanks Tony for the name
  */
-function elephant_display {
+function elephant_display() {
 	// the output format.
 	
 }
