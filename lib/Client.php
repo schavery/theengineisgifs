@@ -88,10 +88,10 @@ class Client {
      */
     public function read() {
         // Ignore first byte, I hope Socket.io does not send fragmented frames, so we don't have to deal with FIN bit.
-        // There are alos reserved bit's which are 0 in socket.io, and opcode, which is always "text frame" in Socket.io
+        // There are also reserved bits which are 0 in socket.io, and opcode, which is always "text frame" in Socket.io
         fread($this->fd, 1);
 
-        // There is also masking bit, as MSB, but it's 0 in current Socket.io
+        // There is also masking bit, as MSB, but its 0 in current Socket.io
         $payload_len = ord(fread($this->fd, 1));
 
         switch ($payload_len) {

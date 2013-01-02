@@ -6,6 +6,7 @@
  * Steve Avery steve@theengineisred.com September 2012
  */
 
+error_reporting(0);
 
 /* form for submitting images, used on admin.php */
 $form = <<<EOT
@@ -34,9 +35,9 @@ EOT;
 
 
 function db_connect() {
-	require_once('../conf/settings.php');
+	require '/conf/settings.php';
 	$db = mysql_connect($db_info['host'],$db_info['user'],$db_info['password']);
-	mysql_select_db($db_info['name']);
+	mysql_select_db($db_info['db_name']);
 	return $db;
 }
 
@@ -218,7 +219,7 @@ function history() {
 	// get previews of all gifs
 	$db = db_connect();
 
-	$sql = 'SELECT `submitted`,`displayed`,`file` FROM `history` WHERE `file` IS NOT NULL AND `removed` != 1 ORDER BY `submitted` ASC';
+	$sql = 'SELECT `submitted`,`displayed`,`file` FROM `history` WHERE `file` IS NOT NULL AND `removed` != 1 ORDER BY `submitted` DESC';
 	$resource = mysql_query($sql);
 	if(mysql_num_rows($resource)) {
 		$rows = array();
@@ -226,7 +227,7 @@ function history() {
 			$rows[] = $row;
 		}
 	} else {
-		$history = '<tr><td><a href="/default/default.gif" target="_blank"><img class="tabled" src="/default/default_frame.gif" /></a></td><td>--</td><td>--</td></tr>';
+		$history = '<tr class="default_row"><td><a href="/default/default.gif" target="_blank"><img class="tabled" src="/default/default_frame.gif" /></a></td><td>--</td><td>--</td></tr>';
 	}
 	mysql_close();
 

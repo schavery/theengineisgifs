@@ -52,14 +52,28 @@
 		});
 	});
 
-	$('tbody tr').hoverIntent(function() {
-		var still = $(this).find('img');
-		var mover = '/archive/' + still.attr('src').split('/').pop();
-		still.attr('src',mover);
-	}, function() {
-		var mover = $(this).find('img');
-		var still = '/archive/frames/' + mover.attr('src').split('/').pop();
-		mover.attr('src',still);
+	$('tbody tr').hoverIntent( {
+		over: function() {
+			var still = $(this).find('img'),
+				mover;
+			if($(this).hasClass('default_row')) {
+				mover = '/default/default.gif';
+			} else {
+				mover = '/archive/' + still.attr('src').split('/').pop();
+			}
+			still.attr('src',mover);
+		},
+		out: function() {
+			var mover = $(this).find('img'),
+				still;
+			if($(this).hasClass('default_row')) {
+				still = '/default/default_frame.gif';
+			} else {
+				still = '/archive/frames/' + mover.attr('src').split('/').pop();
+			}
+			mover.attr('src',still);
+		},
+		sensitivity: 10,
 	});
 
 	$('#back').click(function() {

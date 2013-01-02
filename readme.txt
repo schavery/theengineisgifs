@@ -4,15 +4,16 @@ This suite is under development for the remote display and administration of gif
 The project was developed to display a gif in the window of a shop, so that passers-by would like us better.
 
 Requirements:
-This code is not built with portability in mind. The host machine needs to have apache, php, mysql, imagemagick, and node.js installed. I am not sure what versions are required. My host uses:
+This code is not built with portability in mind. The host machine needs to have apache, php, mysql, imagemagick, node.js, and socket.io installed. I am not sure what versions are required. My host uses:
 php 5.4.4 / apache 2.4.2 / mysql 5.5.25a / xampp 1.8.0
-imagick 6.7.9 Q16 32bit
+imagick 6.7.9 Q16 32bits
 node.js 0.8.14
+socket.io 0.9.13
 
 The client can be any browser, in my particular set up I use a old box with Chrome configured to launch in kiosk mode.
 
 Usage:
-You'll need to set up a host with your apache configuration. Visit the base URL to see the current gif to be displayed, fullscreen. You'll also need to add a mysql user.
+You'll need to set up a host with your apache configuration. Visit the base URL to see the current gif to be displayed, fullscreen. You'll also need to add a mysql user and set the information for the user in conf/settings.php
 To administer your gifs, visit base/admin.php.
 
 You can submit a gif from this page, or visit the queue to see a list of the gifs that have been submitted and select ones to display.
