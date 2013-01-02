@@ -27,7 +27,6 @@ require('inc/common.inc');
 		<!-- successful -->
 		<div id="success">
 			<h1>Success!</h1>
-			<h3>Your gif will be displayed around <?php echo get_day(); ?></h3>
 			<img src="<?php echo $url; ?>" />
 		</div>
 	<?php else: ?>

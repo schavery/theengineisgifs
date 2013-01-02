@@ -204,7 +204,7 @@ function html($filename) {
 	</head>
 	<body>
 EOD;
-$html .= "\n			<img src='/archive/$filename' width='1280' height='1024' />\n";
+$html .= "\n			<img src='/archive/$filename' width='100%' height='100%' />\n";
 $html .= <<<EOD
 	</body>
 </html>
@@ -225,7 +225,7 @@ function history() {
 			$rows[] = $row;
 		}
 	} else {
-		$history = '<tr><td>no results to display</tr></td>';
+		$history = '<tr><td><a href="/default/default.gif" target="_blank"><img class="tabled" src="/default/default_frame.gif" /></a></td><td>--</td><td>--</td></tr>';
 	}
 	mysql_close();
 
