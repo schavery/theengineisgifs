@@ -6,7 +6,7 @@
  * Steve Avery steve@theengineisred.com September 2012
  */
 
-error_reporting(0);
+//error_reporting(E_ALL);
 
 /* form for submitting images, used on admin.php */
 $form = <<<EOT
@@ -300,10 +300,26 @@ EOL;
 }
 
 /*
- * Elephant display is the new layout
- * thanks Tony for the name
+ * emit sends notice to node server 
+ */
+function emit($filename) {
+	require '/lib/Client.php';
+	//use ElephantIO\Client as ElephantIOClient;
+	echo 'in emit';
+
+	$elephant = new ElephantIO\Client('http://theengineis.gifs:61001', 'socket.io', 1, false, true, true);
+	$elephant->init();
+	$elephant->send(
+		ElephantIO\Client::TYPE_EVENT,
+		null,
+		null,
+		json_encode(array('name' => 'update', 'args' => $filename))
+	);
+	$elephant->close();
+}
+/*
+ * New output format
  */
 function elephant_display() {
-	// the output format.
-	
+
 }

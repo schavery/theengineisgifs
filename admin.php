@@ -41,6 +41,8 @@ require('inc/common.inc');
 		<?php print remove($_GET['file']); ?>
 	<?php elseif(array_key_exists('display',$_GET)): ?>
 		<?php set_custom($_GET['file']); ?>
+	<?php elseif(array_key_exists('async_display',$_GET)): ?>
+		<?php emit($_GET['file']); ?>
 	<?php elseif(array_key_exists('update',$_GET)): ?>
 		<?php dl_new_imgs(); ?>
 		<?php print history_table(); ?>

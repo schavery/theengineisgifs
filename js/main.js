@@ -38,7 +38,7 @@
 		$.ajax({
 			url:'admin.php',
 			data:{
-				display:1,
+				async_display:1,
 				file:filename,
 			},
 		}).done(function() {
@@ -48,7 +48,6 @@
 			setTimeout(function() {
 				row.removeClass('success');
 			},250);
-
 		});
 	});
 
