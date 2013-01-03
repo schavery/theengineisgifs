@@ -169,16 +169,19 @@ function history($offset = 0) {
 	
 	$resource = mysql_query($sql);
 	if(mysql_num_rows($resource)) {
-		$rows = array();
-		while($row = mysql_fetch_assoc($resource)) {
-			$rows[] = $row;
+		if(mysql_num_rows($resource) < 20) { // less than the limit
+			// here we will need to append an end of list flag
+		} else {
+			$rows = array();
+			while($row = mysql_fetch_assoc($resource)) {
+				$rows[] = $row;
+			}
 		}
-	} else {
+	} else { // isnt always right, now that pagination is real
 		$history = '<tr class="default_row"><td><a href="/default/default.gif" target="_blank"><img class="tabled" src="/default/default_frame.gif" /></a></td><td>--</td><td>--</td></tr>';
 	}
 	mysql_close();
 
-	// TODO pagination
 	if(!isset($history)) {
 		$history = '';
 		foreach($rows as $row) {
