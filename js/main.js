@@ -91,16 +91,21 @@
 		});
 	});
 	
-	/*
-	var stickyHeaderTop = $('#sticky').offset().top;
-	$(window).scroll(function() {
-		var wrapper = '<div class="sticky"><table><tbody></tbody></table></div>';
-		if($(window).scrollTop() > stickyHeaderTop) {
-			wrapper = $(wrapper).find('div').prepend($('#controls'));
-			$(wrapper).find('tbody').append($('#sticky')).prependTo('body');
-		} else {
-			// unwrap
+	// add endless scrolling
+	// find out if we are near the bottom of the page.
+	var endless = function() {
+		// may not work in some browsers
+		var bottomoffset = document.body.scrollHeight - (window.innerHeight + window.pageYOffset);
+		if(bottomoffset < 300) {
+			// ajax for some more
+			// what were looking for
+			// json with an html string
+			// and a flag for end
+			// if end return from now on and don't hit the db anymore
+			// otherwise we also have to keep track of how much offset we want
+			// we might need to have some closure magic
+			console.log('The end is near');
 		}
-	});
-	*/
+	}
+	var powerBottom = setInterval(endless,300); // so that it can be cleared later
 })(jQuery);

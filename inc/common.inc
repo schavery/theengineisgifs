@@ -62,29 +62,6 @@ function post($url, $title) {
 	mysql_close();
 }
 
-function get_day() {
-	$db = db_connect();
-	// estimate display time
-	$sql = "SELECT COUNT(`url`) FROM `history` WHERE `displayed` IS NULL AND `removed` != 1";
-	$resource = mysql_query($sql);
-	$days_ahead = mysql_result($resource,0,0);
-
-	mysql_close();
-
-	// counting solution to find future date not on a weekend
-	$saturday = 6;
-	$today = date('r');
-
-	for($ii = 1; $ii <= $days_ahead; $ii++) {
-		if(date('N',strtotime($today . ' +' . $ii . ' days')) >= $saturday) {
-			$days_ahead++;
-		}
-	}
-	$time = date('l \t\h\e jS',strtotime($today . ' +' . $days_ahead . ' days'));
-	return $time;
-}
-
-
 /*
  * updates the markup in index.html
  * updates the db with the time that the current filename was run
@@ -114,7 +91,6 @@ function set_next() {
 
 	mysql_close();
 }
-
 
 /*
  * finds urls to download and save, updates the db with filenames
@@ -184,42 +160,13 @@ function dl_new_imgs() {
 	//
 }
 
-
-/*
- * Generates markup for index.html at root of theengineis.gifs
- */
-function html($filename) {
-	$html = <<<EOD
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>The Engine Is Gifs</title>
-		<style>
-			body {
-				margin:0;
-				padding:0;
-				height:100%;
-				width:100%;
-				overflow:hidden;
-			}
-		</style>
-	</head>
-	<body>
-EOD;
-$html .= "\n			<img src='/archive/$filename' width='100%' height='100%' />\n";
-$html .= <<<EOD
-	</body>
-</html>
-EOD;
-
-return $html;
-}
-
-function history() {
+/* slated for removal in favor of new style */
+function history($offset = 0) {
 	// get previews of all gifs
 	$db = db_connect();
 
-	$sql = 'SELECT `submitted`,`displayed`,`file` FROM `history` WHERE `file` IS NOT NULL AND `removed` != 1 ORDER BY `submitted` DESC';
+	$sql = 'SELECT `submitted`,`displayed`,`file` FROM `history` WHERE `file` IS NOT NULL AND `removed` != 1 ORDER BY `submitted` DESC LIMIT 20 OFFSET ' . $offset;
+	
 	$resource = mysql_query($sql);
 	if(mysql_num_rows($resource)) {
 		$rows = array();
@@ -263,14 +210,6 @@ function remove($filename) {
 	$db = db_connect();
 	$sql = 'UPDATE `history` SET `removed` = 1 WHERE `file` = \'' . $filename . '\'';
 	mysql_query($sql);
-	mysql_close();
-}
-
-function set_custom($filename) {
-	$db = db_connect();
-	$sql = "UPDATE `history` SET `displayed` = UNIX_TIMESTAMP() WHERE `file` = '$filename'";
-	mysql_query($sql);
-	file_put_contents('C:\\www\\vhosts\\theengineisgifs\\index.html',html($filename));
 	mysql_close();
 }
 

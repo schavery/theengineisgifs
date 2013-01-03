@@ -39,8 +39,6 @@ require('inc/common.inc');
 <?php elseif($_GET): ?>
 	<?php if(array_key_exists('delete',$_GET)): ?>
 		<?php print remove($_GET['file']); ?>
-	<?php elseif(array_key_exists('display',$_GET)): ?>
-		<?php set_custom($_GET['file']); ?>
 	<?php elseif(array_key_exists('async_display',$_GET)): ?>
 		<?php emit($_GET['file']); ?>
 	<?php elseif(array_key_exists('update',$_GET)): ?>
