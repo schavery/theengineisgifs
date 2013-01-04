@@ -32,8 +32,7 @@ $form = <<<EOT
 		</table>
 	</form>
 EOT;
-
-
+require '/conf/settings.php';
 function db_connect() {
 	require '/conf/settings.php';
 	$db = mysql_connect($db_info['host'],$db_info['user'],$db_info['password']);
@@ -246,7 +245,6 @@ EOL;
  */
 function emit($filename) {
 	require '/lib/Client.php';
-	//use ElephantIO\Client as ElephantIOClient;
 	echo 'in emit';
 
 	$elephant = new ElephantIO\Client('http://theengineis.gifs:61001', 'socket.io', 1, false, true, true);
@@ -259,9 +257,49 @@ function emit($filename) {
 	);
 	$elephant->close();
 }
+
 /*
  * New output format
  */
-function elephant_display() {
+function img_list($offset = 0) {
+	$list_to_return = array(
+		'end_of_list' => 0,
+		'html_string' => ''
+	);
+	$db = db_connect();
+	$sql = 'SELECT `submitted`,`displayed`,`file` FROM `history` WHERE `file` IS NOT NULL AND `removed` != 1 ORDER BY `submitted` DESC LIMIT 20 OFFSET ' . $offset;
+	$resource = mysql_query($sql);
+	if(mysql_num_rows($resource)) {
+		if(mysql_num_rows($resource) < 20) { 
+			$list_to_return['end_of_list'] = 1;
+		} else {
+			$rows = array();
+			while($row = mysql_fetch_assoc($resource)) {
+				$rows[] = $row;
+			}
+		}
+	} else {
+		// there were no db results. maybe your confs are wrong,
+		// or you're just getting started!
+		$img_list = '<div class="frame"><div class="inner"><a href="/default/default.gif" target="_blank"><img src="/default/default_frame.gif" /></a></div><div class="controls btn-group"><button class="btn btn-warn btn-disabled">Display</button><button class="btn btn-disabled">Remove</button><button class="btn btn-disabled">Tweet</button></div></div>';
+	}
+	mysql_close();
 
+	if(!isset($img_list)) {
+		$img_list = '';
+		foreach($rows as $row) {
+			$img_list .= '<div class="frame"><div class="inner">';
+			$frame = '/archive/frames/' . $row['file'];
+			$file = '/archive/' . $row['file'];
+			$img_list .= '<a href="' . $file . '" target="_blank"><img src="' . $frame . '" /></a></div>';
+			if($row['displayed']) {
+				$img_list .= '<div class="controls btn-group"><button class="btn btn-info">Display</button><button class="btn btn-warn">Remove</button><button class="btn">Tweet</button></div></div>';
+			} else {
+				$img_list .= '<div class="controls btn-group"><button class="btn">Display</button><button class="btn btn-warn">Remove</button><button class="btn">Tweet</button></div></div>';
+			}
+			
+		}
+	}
+	$list_to_return['html_string'] = $img_list;
+	return json_encode($list_to_return);
 }

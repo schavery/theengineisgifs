@@ -91,21 +91,28 @@
 		});
 	});
 	
-	// add endless scrolling
-	// find out if we are near the bottom of the page.
+	var offset = 0;
 	var endless = function() {
 		// may not work in some browsers
 		var bottomoffset = document.body.scrollHeight - (window.innerHeight + window.pageYOffset);
 		if(bottomoffset < 300) {
-			// ajax for some more
-			// what were looking for
-			// json with an html string
-			// and a flag for end
-			// if end return from now on and don't hit the db anymore
-			// otherwise we also have to keep track of how much offset we want
-			// we might need to have some closure magic
-			console.log('The end is near');
+			$.ajax({
+				url: 'admin.php',
+				data: {
+					more:1,
+					after:offset
+				}
+			}).done(function(data) {
+				if(data.end_of_list === 1) {
+					window.clearInterval(scrollInterval);
+				}
+				$('.list').append(data.html_string);
+			});
+			offset += 20;
 		}
 	}
-	var powerBottom = setInterval(endless,300); // so that it can be cleared later
+	endless();
+
+	
+	var scrollInterval = setTimeout(setInterval(endless,300),1000);
 })(jQuery);

@@ -41,11 +41,12 @@ require('inc/common.inc');
 		<?php print remove($_GET['file']); ?>
 	<?php elseif(array_key_exists('async_display',$_GET)): ?>
 		<?php emit($_GET['file']); ?>
+	<?php elseif(array_key_exists('more',$_GET)): ?>
+		<?php print img_list($_GET['after']); ?>
 	<?php elseif(array_key_exists('update',$_GET)): ?>
 		<?php dl_new_imgs(); ?>
 		<?php print history_table(); ?>
 	<?php elseif(array_key_exists('history',$_GET)): ?>
-		<?php $history = history(); ?>
 		<?php print history_table(); ?>
 	<?php endif; ?>
 <?php else: ?>
