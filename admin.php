@@ -17,8 +17,8 @@ require('inc/common.inc');
 		<link rel="stylesheet" href="css/bootstrap.min.css" />
 		<link rel="stylesheet" href="css/main.css" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-		<script src="/js/hoverIntent.js"></script>
-		<script src="/js/dateFormat.js"></script>
+		<script src="js/hoverIntent.js"></script>
+		<script src="js/dateFormat.js"></script>
 	</head>
 	<body>
 <?php if($_POST): ?>
@@ -54,6 +54,6 @@ require('inc/common.inc');
 	<?php print($form); ?>
 	<a class="btn" id="history_btn" href="javascript:void(0)">See queue</a> 
 <?php endif; ?>
-		<script src="/js/main.js"></script>
+		<script src="js/main.js"></script>
 	</body>
 </html>
