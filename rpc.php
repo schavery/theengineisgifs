@@ -3,7 +3,7 @@
  * @file rpc.php
  *
  * handles ajax requests
- * steve avery schavery@gmail.com January 2013
+ * January 2013
  */
 require 'inc/common.inc';
 
